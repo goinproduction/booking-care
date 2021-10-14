@@ -1,22 +1,32 @@
 {
-  "name": "booking-care",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ryann126/booking-care.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ryann126/booking-care/issues"
-  },
-  "homepage": "https://github.com/ryann126/booking-care#readme",
-  "dependencies": {
-    "express": "^4.17.1"
-  }
+    "name": "booking-care",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon --exec babel-node src/server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ryann126/booking-care.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ryann126/booking-care/issues"
+    },
+    "homepage": "https://github.com/ryann126/booking-care#readme",
+    "dependencies": {
+        "@babel/node": "^7.12.10",
+        "body-parser": "^1.19.0",
+        "dotenv": "^10.0.0",
+        "ejs": "^3.1.5",
+        "express": "^4.17.1",
+        "nodemon": "^2.0.7"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.10",
+        "@babel/preset-env": "^7.12.10"
+    }
 }
