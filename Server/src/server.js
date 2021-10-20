@@ -1,25 +1,20 @@
-import express from 'express';
-import bodyParser from 'body-parser'; // Lay res, req
-import viewEngine from './config/viewEngine';
-import initWebRoutes from './route/web';
-import connectDB from './config/connectDB';
-import cors from 'cors';
-
 require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const viewEngine = require('./config/viewEngine');
+const route = require('./route');
+const connectToDatabase = require('./config/connectDB');
 
-let app = express();
+connectToDatabase();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
-// config app
+const app = express();
+app.use(express.json());
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 viewEngine(app);
-initWebRoutes(app);
+route(app);
 
-connectDB();
-
-let PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 app.listen(PORT, () => {
-    console.log(`App is running on PORT ${PORT}`);
+    console.log(`Server is running on PORT ${PORT}`);
 });

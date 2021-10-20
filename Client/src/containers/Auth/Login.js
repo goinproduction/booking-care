@@ -9,6 +9,7 @@ import userIcon from '../../../src/assets/images/user.svg';
 import passIcon from '../../../src/assets/images/pass.svg';
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
+import { handleLoginAPI } from '../../services/userService';
 
 class Login extends Component {
     constructor(props) {
@@ -26,7 +27,12 @@ class Login extends Component {
         });
     };
 
-    handleLogin = () => {
+    handleLogin = async () => {
+        try {
+            await handleLoginAPI(this.state.username, this.state.password);
+        } catch (error) {
+            console.log(error);
+        }
         console.log(this.state);
     };
 
