@@ -10,6 +10,7 @@ import passIcon from '../../../src/assets/images/pass.svg';
 import './Login.scss';
 import { FormattedMessage } from 'react-intl';
 import { handleLoginAPI } from '../../services/userService';
+import { userLoginSuccess } from '../../store/actions';
 
 class Login extends Component {
     constructor(props) {
@@ -18,9 +19,9 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
+            loginError: '',
         };
     }
-
     handleOnChangeInput = (e) => {
         this.setState({
             [e.target.name]: e.target.value,
@@ -29,16 +30,34 @@ class Login extends Component {
 
     handleLogin = async () => {
         try {
-            await handleLoginAPI(this.state.username, this.state.password);
+            let response = await handleLoginAPI(
+                this.state.username,
+                this.state.password
+            );
+
+            if (response && !response.success) {
+                this.setState({
+                    loginError: response.message,
+                });
+            }
+
+            if (response && response.success) {
+                this.props.userLoginSuccess(response.user);
+                console.log('Success');
+            }
         } catch (error) {
-            console.log(error);
+            if (error.response) {
+                if (error.response.data) {
+                    this.setState({
+                        loginError: error.response.data.message,
+                    });
+                }
+            }
         }
-        console.log(this.state);
     };
 
     render() {
         const { lang } = this.props;
-
         return (
             <div className='login-wrapper'>
                 <div className='login-container'>
@@ -46,6 +65,13 @@ class Login extends Component {
                         <h2 className='title'>
                             <FormattedMessage id='login.login' />
                         </h2>
+                        {this.state.loginError !== '' && (
+                            <div className='login-error'>
+                                <span className='login-error-message'>
+                                    {this.state.loginError}
+                                </span>
+                            </div>
+                        )}
                         <div className='form-group icon-true'>
                             <img className='icon' src={userIcon} alt='this' />
                             <input
@@ -83,13 +109,6 @@ class Login extends Component {
                             />
                         </div>
 
-                        {/* {loginError !== '' && (
-                            <div className='login-error'>
-                                <span className='login-error-message'>
-                                </span>
-                            </div>
-                        )} */}
-
                         <div className='form-group login'>
                             <input
                                 ref={this.btnLogin}
@@ -119,9 +138,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         navigate: (path) => dispatch(push(path)),
-        adminLoginSuccess: (adminInfo) =>
-            dispatch(actions.adminLoginSuccess(adminInfo)),
-        adminLoginFail: () => dispatch(actions.adminLoginFail()),
+        userLoginFail: () => dispatch(actions.userLoginFail()),
+        userLoginSuccess: (userInfo) =>
+            dispatch(actions.userLoginSuccess(userInfo)),
     };
 };
 
