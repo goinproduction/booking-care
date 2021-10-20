@@ -11,8 +11,9 @@ let getCRUD = (req, res) => {
 
 let postCRUD = async (req, res) => {
     let msg = await CRUDService.createNewUser(req.body);
-    console.log(msg);
-    return res.send('POST CRUD');
+    return res.json({
+        success: true,
+    });
 };
 
 let displayGetCRUD = async (req, res) => {
@@ -31,12 +32,12 @@ let editCRUD = async (req, res) => {
 let putCRUD = async (req, res) => {
     let data = req.body;
     let allUsers = await CRUDService.updateUserData(data);
-}
+};
 
 let deleteCRUD = async (req, res) => {
     let id = req.query.id;
     await CRUDService.deleteuserById(id);
-}
+};
 module.exports = {
     getHomepage,
     getCRUD,

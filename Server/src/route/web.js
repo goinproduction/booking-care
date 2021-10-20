@@ -11,5 +11,6 @@ router.get('/get-crud', homeController.displayGetCRUD);
 router.get('/edit-crud', homeController.editCRUD);
 
 router.post('/login', userController.handleLogin);
+router.get('/get-all-users', userController.handleGetAllUsers);
 
 module.exports = router;
